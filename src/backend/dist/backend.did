@@ -1,0 +1,44 @@
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type Timestamp = int;
+type Statut = text;
+type RecordId = nat;
+type DemandeInput = 
+ record {
+   email: text;
+   message: text;
+   nom: text;
+   telephone: text;
+ };
+type DemandeBase = 
+ record {
+   date: Timestamp;
+   departement: text;
+   email: text;
+   id: RecordId;
+   message: text;
+   nom: text;
+   statut: Statut;
+   telephone: text;
+ };
+service : {
+  _initializeAccessControl: () -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  getCallerUserRole: () -> (UserRole) query;
+  getContacts: () -> (vec DemandeBase) query;
+  getDemandesImmobilier: () -> (vec DemandeBase) query;
+  getDemandesNettoiement: () -> (vec DemandeBase) query;
+  getDemandesVoyages: () -> (vec DemandeBase) query;
+  isAdmin: () -> (bool) query;
+  isCallerAdmin: () -> (bool) query;
+  submitContact: (input: DemandeInput) -> (RecordId);
+  submitImmobilier: (input: DemandeInput) -> (RecordId);
+  submitNettoiement: (input: DemandeInput) -> (RecordId);
+  submitVoyage: (input: DemandeInput) -> (RecordId);
+  updateStatut: (collectionName: text, id: RecordId, statut: Statut) ->
+   (bool);
+}

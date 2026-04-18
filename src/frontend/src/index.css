@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "Montserrat";
+    --font-body: "Open Sans";
+    --font-mono: monospace;
+    --radius: 0.5rem;
+
+    /* Navy #0D2B6B → oklch(0.28 0.12 263) */
+    /* Sky Blue #1A75BC → oklch(0.52 0.14 240) */
+    /* Gold #F5A623 → oklch(0.78 0.16 72) */
+    /* White #FFFFFF → oklch(1 0 0) */
+    /* Light Gray #F4F6F9 → oklch(0.97 0.005 240) */
+
+    --background: 0.97 0.005 240;
+    --foreground: 0.18 0.06 263;
+
+    --card: 1 0 0;
+    --card-foreground: 0.18 0.06 263;
+    --popover: 1 0 0;
+    --popover-foreground: 0.18 0.06 263;
+
+    /* Primary = Navy */
+    --primary: 0.28 0.12 263;
+    --primary-foreground: 1 0 0;
+
+    /* Secondary = Sky Blue */
+    --secondary: 0.52 0.14 240;
+    --secondary-foreground: 1 0 0;
+
+    /* Accent = Gold */
+    --accent: 0.78 0.16 72;
+    --accent-foreground: 0.18 0.06 263;
+
+    --muted: 0.95 0.008 240;
+    --muted-foreground: 0.45 0.03 263;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0 0;
+
+    --border: 0.88 0.015 240;
+    --input: 0.88 0.015 240;
+    --ring: 0.52 0.14 240;
+
+    --chart-1: 0.28 0.12 263;
+    --chart-2: 0.52 0.14 240;
+    --chart-3: 0.78 0.16 72;
+    --chart-4: 0.65 0.18 145;
+    --chart-5: 0.7 0.12 30;
+
+    --sidebar: 0.28 0.12 263;
+    --sidebar-foreground: 1 0 0;
+    --sidebar-primary: 0.78 0.16 72;
+    --sidebar-primary-foreground: 0.18 0.06 263;
+    --sidebar-accent: 0.52 0.14 240;
+    --sidebar-accent-foreground: 1 0 0;
+    --sidebar-border: 0.35 0.1 263;
+    --sidebar-ring: 0.52 0.14 240;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Open Sans", sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+  }
+
+  .font-body {
+    font-family: "Open Sans", sans-serif;
+  }
+
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .bg-navy {
+    background-color: #0d2b6b;
+  }
+
+  .bg-skyblue {
+    background-color: #1a75bc;
+  }
+
+  .bg-gold {
+    background-color: #f5a623;
+  }
+
+  .text-navy {
+    color: #0d2b6b;
+  }
+
+  .text-skyblue {
+    color: #1a75bc;
+  }
+
+  .text-gold {
+    color: #f5a623;
+  }
+
+  .border-gold {
+    border-color: #f5a623;
+  }
+
+  .border-skyblue {
+    border-color: #1a75bc;
+  }
+
+  .hover\:bg-gold:hover {
+    background-color: #f5a623;
+  }
+
+  .hover\:text-gold:hover {
+    color: #f5a623;
+  }
+
+  .gradient-navy {
+    background: linear-gradient(135deg, #0d2b6b 0%, #1a3a7a 100%);
+  }
+
+  .gradient-hero-overlay {
+    background: linear-gradient(
+      135deg,
+      rgba(13, 43, 107, 0.88) 0%,
+      rgba(13, 43, 107, 0.6) 100%
+    );
+  }
+
+  .shadow-card {
+    box-shadow: 0 4px 16px -2px rgba(13, 43, 107, 0.12), 0 2px 6px -2px
+      rgba(0, 0, 0, 0.06);
+  }
+
+  .shadow-elevated {
+    box-shadow: 0 10px 30px -5px rgba(13, 43, 107, 0.2), 0 4px 10px -5px
+      rgba(0, 0, 0, 0.1);
+  }
+
+  .section-alt {
+    background-color: #f4f6f9;
+  }
+
+  .btn-primary {
+    @apply bg-skyblue text-white font-display px-6 py-3 rounded-lg transition-smooth;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .btn-primary:hover {
+    background-color: #f5a623;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
+  }
+
+  .btn-gold {
+    @apply bg-gold text-navy font-display px-6 py-3 rounded-lg transition-smooth;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+  }
+
+  .btn-gold:hover {
+    background-color: #e8971e;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(245, 166, 35, 0.45);
+  }
+
+  .btn-outline-white {
+    @apply border-2 border-white text-white font-display px-6 py-3 rounded-lg transition-smooth;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    background: transparent;
+  }
+
+  .btn-outline-white:hover {
+    background-color: white;
+    color: #0d2b6b;
+  }
+
+  .card-hover {
+    @apply transition-smooth;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px -8px rgba(13, 43, 107, 0.2);
+  }
+
+  .form-input {
+    @apply w-full px-4 py-3 rounded-lg border-2 text-sm outline-none transition-smooth font-body bg-white;
+    border-color: #dde1ea;
+    font-family: "Open Sans", sans-serif;
+  }
+
+  .form-input:focus {
+    border-color: #1a75bc;
+  }
+}

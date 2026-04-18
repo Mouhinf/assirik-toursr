@@ -1,0 +1,27 @@
+{
+  "overview": "Professional multi-department website for Assirik Tours, a Senegalese company based in Dakar. Features public-facing pages for Travel, Real Estate, and Cleaning (ATN) departments with contact/quote forms, and a protected admin dashboard to manage all submissions.",
+  "features": [
+    "Fixed header with mobile hamburger menu and brand navigation",
+    "Hero section with animated headline and department overview cards",
+    "Voyages page: flight booking, visa assistance, circuits, airport transfers, hotel reservations",
+    "Immobilier page: property sales, rentals, management, investment advisory",
+    "Nettoiement (ATN) page: 8 cleaning service domains with quote form",
+    "Contact page with embedded map, full address, and general inquiry form",
+    "Protected admin dashboard with Internet Identity login, filters by department, and status management",
+    "AOS.js scroll animations and hover effects throughout",
+    "Responsive design with navy, sky blue, and gold color palette",
+    "Motoko backend storing all form submissions with public write / admin-only read"
+  ],
+  "category": "business",
+  "tags": [
+    "senegal",
+    "dakar",
+    "tourism",
+    "real-estate",
+    "cleaning",
+    "professional",
+    "multilingual",
+    "admin-dashboard"
+  ],
+  "last_updated": "2026-04-16T14:11:25.719Z"
+}
