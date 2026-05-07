@@ -1,4 +1,3 @@
-import { useInternetIdentity } from "@caffeineai/core-infrastructure";
 import { useState } from "react";
 import { toast } from "sonner";
 import {
@@ -8,7 +7,6 @@ import {
   useDemandesVoyages,
   useUpdateStatut,
 } from "../hooks/useBackend";
-import { useIsAdmin } from "../hooks/useIsAdmin";
 import type { DemandeBase } from "../types";
 
 type FilterTab = "tous" | "voyages" | "immobilier" | "nettoiement" | "contacts";
@@ -61,9 +59,19 @@ function DeptBadge({ dept }: { dept: string }) {
   );
 }
 
+// ── Credentials (frontend password gate) ──────────────────────────────────
+const ADMIN_EMAIL = "assiriktours@gmail.com";
+const ADMIN_PASSWORD = "maregaassiriks";
+const STORAGE_KEY = "assirik_admin_auth";
+
 export function AdminPage() {
-  const { login, clear, isAuthenticated } = useInternetIdentity();
-  const { isAdmin, isLoading } = useIsAdmin();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(
+    () => localStorage.getItem(STORAGE_KEY) === "true",
+  );
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterTab>("tous");
 
   const { data: voyages = [], isLoading: loadingV } = useDemandesVoyages();
@@ -76,51 +84,26 @@ export function AdminPage() {
 
   const isLoadingAll = loadingV || loadingI || loadingN || loadingC;
 
-  const enrich = (
-    items: DemandeBase[],
-    collection: string,
-    dept: string,
-  ): EnrichedDemande[] =>
-    items.map((d) => ({ ...d, _collection: collection, _dept: dept }));
-
-  const allDemandes: EnrichedDemande[] = [
-    ...enrich(voyages, "demandes_voyages", "Voyages"),
-    ...enrich(immobilier, "demandes_immobilier", "Immobilier"),
-    ...enrich(nettoiement, "demandes_nettoiement", "Nettoiement"),
-    ...enrich(contacts, "contacts", "Contact"),
-  ].sort((a, b) => Number(b.date) - Number(a.date));
-
-  const filterMap: Record<FilterTab, EnrichedDemande[]> = {
-    tous: allDemandes,
-    voyages: enrich(voyages, "demandes_voyages", "Voyages"),
-    immobilier: enrich(immobilier, "demandes_immobilier", "Immobilier"),
-    nettoiement: enrich(nettoiement, "demandes_nettoiement", "Nettoiement"),
-    contacts: enrich(contacts, "contacts", "Contact"),
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim() === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      localStorage.setItem(STORAGE_KEY, "true");
+      setIsLoggedIn(true);
+      setLoginError("");
+    } else {
+      setLoginError("Identifiant ou mot de passe incorrect.");
+    }
   };
 
-  const filtered = filterMap[activeFilter];
-
-  const handleMarkTraite = (item: EnrichedDemande) => {
-    updateStatut(
-      { collection: item._collection, id: item.id, statut: "traité" },
-      {
-        onSuccess: () => toast.success("Demande marquée comme traitée."),
-        onError: () => toast.error("Erreur lors de la mise à jour."),
-      },
-    );
+  const handleLogout = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setIsLoggedIn(false);
+    setEmail("");
+    setPassword("");
   };
-
-  const formatDate = (ts: bigint) =>
-    new Date(Number(ts) / 1_000_000).toLocaleDateString("fr-FR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
 
   // ── Not logged in ──────────────────────────────────────────────────────────
-  if (!isAuthenticated) {
+  if (!isLoggedIn) {
     return (
       <div
         className="min-h-screen flex items-center justify-center px-4"
@@ -152,85 +135,163 @@ export function AdminPage() {
             className="text-sm mb-8 leading-relaxed"
             style={{ color: "#666", fontFamily: "Open Sans, sans-serif" }}
           >
-            Connectez-vous avec votre identité numérique pour accéder au tableau
-            de bord.
+            Connectez-vous pour accéder au tableau de bord de gestion des
+            demandes.
           </p>
-          <button
-            type="button"
-            onClick={() => login()}
-            className="btn-primary w-full py-3 rounded-lg flex items-center justify-center gap-2"
-            data-ocid="admin.login_button"
-          >
-            <i className="fas fa-sign-in-alt" />
-            Se connecter avec Internet Identity
-          </button>
+
+          <form onSubmit={handleLogin} className="text-left space-y-4">
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="admin-email"
+                className="block text-xs font-semibold mb-1"
+                style={{
+                  color: "#0D2B6B",
+                  fontFamily: "Montserrat, sans-serif",
+                }}
+              >
+                Identifiant (Email)
+              </label>
+              <div className="relative">
+                <i
+                  className="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-sm"
+                  style={{ color: "#aab3c0" }}
+                />
+                <input
+                  id="admin-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Votre email"
+                  autoComplete="email"
+                  required
+                  className="w-full pl-9 pr-4 py-2.5 rounded-lg border text-sm outline-none transition-smooth"
+                  style={{
+                    borderColor: "#dde3ee",
+                    fontFamily: "Open Sans, sans-serif",
+                    color: "#222",
+                  }}
+                  data-ocid="admin.email_input"
+                />
+              </div>
+            </div>
+
+            {/* Mot de passe */}
+            <div>
+              <label
+                htmlFor="admin-password"
+                className="block text-xs font-semibold mb-1"
+                style={{
+                  color: "#0D2B6B",
+                  fontFamily: "Montserrat, sans-serif",
+                }}
+              >
+                Mot de passe
+              </label>
+              <div className="relative">
+                <i
+                  className="fas fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-sm"
+                  style={{ color: "#aab3c0" }}
+                />
+                <input
+                  id="admin-password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Votre mot de passe"
+                  autoComplete="current-password"
+                  required
+                  className="w-full pl-9 pr-10 py-2.5 rounded-lg border text-sm outline-none transition-smooth"
+                  style={{
+                    borderColor: "#dde3ee",
+                    fontFamily: "Open Sans, sans-serif",
+                    color: "#222",
+                  }}
+                  data-ocid="admin.password_input"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-sm"
+                  style={{ color: "#aab3c0" }}
+                  tabIndex={-1}
+                >
+                  <i className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`} />
+                </button>
+              </div>
+            </div>
+
+            {/* Erreur */}
+            {loginError && (
+              <div
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs"
+                style={{
+                  backgroundColor: "#FDE8E8",
+                  color: "#DC2626",
+                  fontFamily: "Open Sans, sans-serif",
+                }}
+              >
+                <i className="fas fa-exclamation-circle" />
+                {loginError}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="btn-primary w-full py-3 rounded-lg flex items-center justify-center gap-2"
+              data-ocid="admin.login_button"
+            >
+              <i className="fas fa-sign-in-alt" />
+              Se connecter
+            </button>
+          </form>
         </div>
       </div>
     );
   }
 
-  // ── Loading admin check ────────────────────────────────────────────────────
-  if (isLoading) {
-    return (
-      <div
-        className="min-h-screen flex items-center justify-center"
-        style={{ backgroundColor: "#F4F6F9" }}
-        data-ocid="admin.loading_state"
-      >
-        <div className="text-center">
-          <div
-            className="w-12 h-12 rounded-full border-4 animate-spin mx-auto mb-4"
-            style={{ borderColor: "#1A75BC", borderTopColor: "#F5A623" }}
-          />
-          <p style={{ color: "#0D2B6B", fontFamily: "Open Sans, sans-serif" }}>
-            Vérification des accès...
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const enrich = (
+    items: DemandeBase[],
+    collection: string,
+    dept: string,
+  ): EnrichedDemande[] =>
+    items.map((d) => ({ ...d, _collection: collection, _dept: dept }));
 
-  // ── Not admin ──────────────────────────────────────────────────────────────
-  if (!isAdmin) {
-    return (
-      <div
-        className="min-h-screen flex items-center justify-center px-4"
-        style={{ backgroundColor: "#F4F6F9" }}
-        data-ocid="admin.unauthorized_state"
-      >
-        <div className="bg-white rounded-2xl p-10 shadow-elevated text-center max-w-sm w-full">
-          <div
-            className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5"
-            style={{ backgroundColor: "#FDE8E8" }}
-          >
-            <i className="fas fa-lock text-2xl" style={{ color: "#DC2626" }} />
-          </div>
-          <h2
-            className="text-xl font-bold mb-2"
-            style={{ color: "#0D2B6B", fontFamily: "Montserrat, sans-serif" }}
-          >
-            Accès non autorisé
-          </h2>
-          <p
-            className="text-sm mb-6 leading-relaxed"
-            style={{ color: "#666", fontFamily: "Open Sans, sans-serif" }}
-          >
-            Votre compte ne dispose pas des droits nécessaires pour accéder à
-            cette page.
-          </p>
-          <button
-            type="button"
-            onClick={() => clear()}
-            className="btn-primary w-full py-3 rounded-lg flex items-center justify-center gap-2"
-            data-ocid="admin.logout_button"
-          >
-            <i className="fas fa-sign-out-alt" />
-            Se déconnecter
-          </button>
-        </div>
-      </div>
+  const allDemandes: EnrichedDemande[] = [
+    ...enrich(voyages, "demandesVoyages", "Voyages"),
+    ...enrich(immobilier, "demandesImmobilier", "Immobilier"),
+    ...enrich(nettoiement, "demandesNettoiement", "Nettoiement"),
+    ...enrich(contacts, "contacts", "Contact"),
+  ].sort((a, b) => new Date(b.$createdAt).getTime() - new Date(a.$createdAt).getTime());
+
+  const filterMap: Record<FilterTab, EnrichedDemande[]> = {
+    tous: allDemandes,
+    voyages: enrich(voyages, "demandesVoyages", "Voyages"),
+    immobilier: enrich(immobilier, "demandesImmobilier", "Immobilier"),
+    nettoiement: enrich(nettoiement, "demandesNettoiement", "Nettoiement"),
+    contacts: enrich(contacts, "contacts", "Contact"),
+  };
+
+  const filtered = filterMap[activeFilter];
+
+  const handleMarkTraite = (item: EnrichedDemande) => {
+    updateStatut(
+      { collection: item._collection, id: item.$id, statut: "traité" },
+      {
+        onSuccess: () => toast.success("Demande marquée comme traitée."),
+        onError: () => toast.error("Erreur lors de la mise à jour."),
+      },
     );
-  }
+  };
+
+  const formatDate = (isoDate: string) =>
+    new Date(isoDate).toLocaleDateString("fr-FR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
 
   // ── Dashboard ──────────────────────────────────────────────────────────────
   const tabs: { key: FilterTab; label: string; count: number; icon: string }[] =
@@ -337,7 +398,7 @@ export function AdminPage() {
           </div>
           <button
             type="button"
-            onClick={() => clear()}
+            onClick={handleLogout}
             className="flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold transition-smooth"
             style={{
               borderColor: "rgba(255,255,255,0.3)",
@@ -352,6 +413,7 @@ export function AdminPage() {
           </button>
         </div>
       </div>
+
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* ── Stat Cards ───────────────────────────────────────────────────── */}
@@ -537,7 +599,7 @@ export function AdminPage() {
                     const isTraite = item.statut === "traité";
                     return (
                       <tr
-                        key={`${item._collection}-${String(item.id)}`}
+                        key={`${item._collection}-${item.$id}`}
                         className="transition-smooth hover:bg-[#fafbfd]"
                         style={{
                           borderBottom: "1px solid #f0f3f8",
@@ -601,7 +663,7 @@ export function AdminPage() {
                             fontFamily: "Open Sans, sans-serif",
                           }}
                         >
-                          {formatDate(item.date)}
+                          {formatDate(item.$createdAt)}
                         </td>
                         {/* Statut */}
                         <td className="px-4 py-4">

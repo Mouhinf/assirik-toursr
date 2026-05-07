@@ -1,10 +1,24 @@
-export type {
-  DemandeInput,
-  DemandeBase,
-  RecordId,
-  Statut,
-  Timestamp,
-} from "../backend.d";
+export interface DemandeInput {
+  nom: string;
+  email: string;
+  telephone: string;
+  message: string;
+}
+
+export interface DemandeBase {
+  $id: string;
+  nom: string;
+  email: string;
+  telephone: string;
+  message: string;
+  departement: string;
+  statut: string;
+  $createdAt: string;
+}
+
+export type RecordId = string;
+export type Statut = string;
+export type Timestamp = string;
 
 export interface NavLink {
   label: string;

@@ -1,115 +1,209 @@
-import { useActor } from "@caffeineai/core-infrastructure";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createActor } from "../backend";
-import type { DemandeBase, DemandeInput, RecordId } from "../backend.d";
+import { databases, APPWRITE_DATABASE_ID, APPWRITE_COLLECTIONS, ID, Query } from "../lib/appwrite";
+import type { DemandeBase, DemandeInput } from "../types";
+
+// Helper to map Appwrite document to DemandeBase
+function mapDocumentToDemande(doc: Record<string, unknown>, departement: string): DemandeBase {
+  return {
+    $id: doc.$id as string,
+    nom: (doc.nom as string) ?? "",
+    email: (doc.email as string) ?? "",
+    telephone: (doc.telephone as string) ?? "",
+    message: (doc.message as string) ?? "",
+    departement,
+    statut: (doc.statut as string) ?? "nouveau",
+    $createdAt: (doc.$createdAt as string) ?? new Date().toISOString(),
+  };
+}
+
+// ── Voyages ───────────────────────────────────────────────────────────────
 
 export function useSubmitVoyage() {
-  const { actor } = useActor(createActor);
   const qc = useQueryClient();
-  return useMutation<RecordId, Error, DemandeInput>({
-    mutationFn: async (input) => {
-      if (!actor) throw new Error("Actor not ready");
-      return actor.submitVoyage(input);
+  return useMutation({
+    mutationFn: async (input: DemandeInput) => {
+      const doc = await databases.createDocument(
+        APPWRITE_DATABASE_ID,
+        APPWRITE_COLLECTIONS.demandesVoyages,
+        ID.unique(),
+        {
+          nom: input.nom,
+          email: input.email,
+          telephone: input.telephone,
+          message: input.message,
+          statut: "nouveau",
+          departement: "Voyages",
+        }
+      );
+      return doc;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["voyages"] }),
   });
 }
 
+export function useDemandesVoyages() {
+  return useQuery<DemandeBase[]>({
+    queryKey: ["voyages"],
+    queryFn: async () => {
+      const response = await databases.listDocuments(
+        APPWRITE_DATABASE_ID,
+        APPWRITE_COLLECTIONS.demandesVoyages,
+        [Query.orderDesc("$createdAt")]
+      );
+      return response.documents.map((doc) =>
+        mapDocumentToDemande(doc as unknown as Record<string, unknown>, "Voyages")
+      );
+    },
+  });
+}
+
+// ── Immobilier ────────────────────────────────────────────────────────────
+
 export function useSubmitImmobilier() {
-  const { actor } = useActor(createActor);
   const qc = useQueryClient();
-  return useMutation<RecordId, Error, DemandeInput>({
-    mutationFn: async (input) => {
-      if (!actor) throw new Error("Actor not ready");
-      return actor.submitImmobilier(input);
+  return useMutation({
+    mutationFn: async (input: DemandeInput) => {
+      const doc = await databases.createDocument(
+        APPWRITE_DATABASE_ID,
+        APPWRITE_COLLECTIONS.demandesImmobilier,
+        ID.unique(),
+        {
+          nom: input.nom,
+          email: input.email,
+          telephone: input.telephone,
+          message: input.message,
+          statut: "nouveau",
+          departement: "Immobilier",
+        }
+      );
+      return doc;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["immobilier"] }),
   });
 }
 
+export function useDemandesImmobilier() {
+  return useQuery<DemandeBase[]>({
+    queryKey: ["immobilier"],
+    queryFn: async () => {
+      const response = await databases.listDocuments(
+        APPWRITE_DATABASE_ID,
+        APPWRITE_COLLECTIONS.demandesImmobilier,
+        [Query.orderDesc("$createdAt")]
+      );
+      return response.documents.map((doc) =>
+        mapDocumentToDemande(doc as unknown as Record<string, unknown>, "Immobilier")
+      );
+    },
+  });
+}
+
+// ── Nettoiement ───────────────────────────────────────────────────────────
+
 export function useSubmitNettoiement() {
-  const { actor } = useActor(createActor);
   const qc = useQueryClient();
-  return useMutation<RecordId, Error, DemandeInput>({
-    mutationFn: async (input) => {
-      if (!actor) throw new Error("Actor not ready");
-      return actor.submitNettoiement(input);
+  return useMutation({
+    mutationFn: async (input: DemandeInput) => {
+      const doc = await databases.createDocument(
+        APPWRITE_DATABASE_ID,
+        APPWRITE_COLLECTIONS.demandesNettoiement,
+        ID.unique(),
+        {
+          nom: input.nom,
+          email: input.email,
+          telephone: input.telephone,
+          message: input.message,
+          statut: "nouveau",
+          departement: "Nettoiement",
+        }
+      );
+      return doc;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["nettoiement"] }),
   });
 }
 
+export function useDemandesNettoiement() {
+  return useQuery<DemandeBase[]>({
+    queryKey: ["nettoiement"],
+    queryFn: async () => {
+      const response = await databases.listDocuments(
+        APPWRITE_DATABASE_ID,
+        APPWRITE_COLLECTIONS.demandesNettoiement,
+        [Query.orderDesc("$createdAt")]
+      );
+      return response.documents.map((doc) =>
+        mapDocumentToDemande(doc as unknown as Record<string, unknown>, "Nettoiement")
+      );
+    },
+  });
+}
+
+// ── Contacts ──────────────────────────────────────────────────────────────
+
 export function useSubmitContact() {
-  const { actor } = useActor(createActor);
   const qc = useQueryClient();
-  return useMutation<RecordId, Error, DemandeInput>({
-    mutationFn: async (input) => {
-      if (!actor) throw new Error("Actor not ready");
-      return actor.submitContact(input);
+  return useMutation({
+    mutationFn: async (input: DemandeInput) => {
+      const doc = await databases.createDocument(
+        APPWRITE_DATABASE_ID,
+        APPWRITE_COLLECTIONS.contacts,
+        ID.unique(),
+        {
+          nom: input.nom,
+          email: input.email,
+          telephone: input.telephone,
+          message: input.message,
+          statut: "nouveau",
+          departement: "Contact",
+        }
+      );
+      return doc;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["contacts"] }),
   });
 }
 
-export function useDemandesVoyages() {
-  const { actor, isFetching } = useActor(createActor);
-  return useQuery<DemandeBase[]>({
-    queryKey: ["voyages"],
-    queryFn: async () => {
-      if (!actor) return [];
-      return actor.getDemandesVoyages();
-    },
-    enabled: !!actor && !isFetching,
-  });
-}
-
-export function useDemandesImmobilier() {
-  const { actor, isFetching } = useActor(createActor);
-  return useQuery<DemandeBase[]>({
-    queryKey: ["immobilier"],
-    queryFn: async () => {
-      if (!actor) return [];
-      return actor.getDemandesImmobilier();
-    },
-    enabled: !!actor && !isFetching,
-  });
-}
-
-export function useDemandesNettoiement() {
-  const { actor, isFetching } = useActor(createActor);
-  return useQuery<DemandeBase[]>({
-    queryKey: ["nettoiement"],
-    queryFn: async () => {
-      if (!actor) return [];
-      return actor.getDemandesNettoiement();
-    },
-    enabled: !!actor && !isFetching,
-  });
-}
-
 export function useContacts() {
-  const { actor, isFetching } = useActor(createActor);
   return useQuery<DemandeBase[]>({
     queryKey: ["contacts"],
     queryFn: async () => {
-      if (!actor) return [];
-      return actor.getContacts();
+      const response = await databases.listDocuments(
+        APPWRITE_DATABASE_ID,
+        APPWRITE_COLLECTIONS.contacts,
+        [Query.orderDesc("$createdAt")]
+      );
+      return response.documents.map((doc) =>
+        mapDocumentToDemande(doc as unknown as Record<string, unknown>, "Contact")
+      );
     },
-    enabled: !!actor && !isFetching,
   });
 }
 
+// ── Update Statut ─────────────────────────────────────────────────────────
+
 export function useUpdateStatut() {
-  const { actor } = useActor(createActor);
   const qc = useQueryClient();
-  return useMutation<
-    boolean,
-    Error,
-    { collection: string; id: RecordId; statut: string }
-  >({
-    mutationFn: async ({ collection, id, statut }) => {
-      if (!actor) throw new Error("Actor not ready");
-      return actor.updateStatut(collection, id, statut);
+  return useMutation({
+    mutationFn: async ({
+      collection,
+      id,
+      statut,
+    }: {
+      collection: string;
+      id: string;
+      statut: string;
+    }) => {
+      const collectionId = APPWRITE_COLLECTIONS[collection as keyof typeof APPWRITE_COLLECTIONS];
+      if (!collectionId) throw new Error(`Unknown collection: ${collection}`);
+
+      await databases.updateDocument(
+        APPWRITE_DATABASE_ID,
+        collectionId,
+        id,
+        { statut }
+      );
+      return true;
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["voyages"] });

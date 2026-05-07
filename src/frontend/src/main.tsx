@@ -1,18 +1,7 @@
-import { InternetIdentityProvider } from "@caffeineai/core-infrastructure";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-
-BigInt.prototype.toJSON = function () {
-  return this.toString();
-};
-
-declare global {
-  interface BigInt {
-    toJSON(): string;
-  }
-}
 
 // Initialize AOS after DOM is ready
 declare global {
@@ -34,21 +23,9 @@ const queryClient = new QueryClient({
 
 const rootEl = document.getElementById("root")!;
 
-const II_URL =
-  (import.meta.env.II_URL as string | undefined) ||
-  "https://identity.internetcomputer.org/";
-
 ReactDOM.createRoot(rootEl).render(
   <QueryClientProvider client={queryClient}>
-    <InternetIdentityProvider
-      createOptions={{
-        loginOptions: {
-          identityProvider: II_URL,
-        },
-      }}
-    >
-      <App />
-    </InternetIdentityProvider>
+    <App />
   </QueryClientProvider>,
 );
 

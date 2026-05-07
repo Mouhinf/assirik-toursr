@@ -1,4 +1,4 @@
-import { j as jsxRuntimeExports, L as Link, r as reactExports } from "./index-C4d48glV.js";
+import { j as jsxRuntimeExports, L as Link, r as reactExports } from "./index-C-KlYw6s.js";
 const departments = [
   {
     id: "voyages",

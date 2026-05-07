@@ -1,18 +1,5 @@
-import { a as useInternetIdentity, r as reactExports, j as jsxRuntimeExports, u as ue } from "./index-C4d48glV.js";
-import { d as useActor, e as useQuery, f as createActor, g as useDemandesVoyages, h as useDemandesImmobilier, i as useDemandesNettoiement, j as useContacts, k as useUpdateStatut } from "./useBackend-C3I4X0wm.js";
-function useIsAdmin() {
-  const { actor, isFetching } = useActor(createActor);
-  const { isAuthenticated } = useInternetIdentity();
-  const { data: isAdmin = false, isLoading } = useQuery({
-    queryKey: ["isAdmin", isAuthenticated],
-    queryFn: async () => {
-      if (!actor || !isAuthenticated) return false;
-      return actor.isAdmin();
-    },
-    enabled: !!actor && !isFetching && isAuthenticated
-  });
-  return { isAdmin, isLoading, isAuthenticated };
-}
+import { r as reactExports, j as jsxRuntimeExports, u as ue } from "./index-C-KlYw6s.js";
+import { d as useDemandesVoyages, e as useDemandesImmobilier, f as useDemandesNettoiement, g as useContacts, h as useUpdateStatut } from "./useBackend-CM5Ini1t.js";
 const DEPT_COLORS = {
   Voyages: { bg: "#E8F2FB", text: "#1A75BC" },
   Immobilier: { bg: "#E6EBF5", text: "#0D2B6B" },
@@ -58,9 +45,17 @@ function DeptBadge({ dept }) {
     }
   );
 }
+const ADMIN_EMAIL = "assiriktours@gmail.com";
+const ADMIN_PASSWORD = "maregaassiriks";
+const STORAGE_KEY = "assirik_admin_auth";
 function AdminPage() {
-  const { login, clear, isAuthenticated } = useInternetIdentity();
-  const { isAdmin, isLoading } = useIsAdmin();
+  const [isLoggedIn, setIsLoggedIn] = reactExports.useState(
+    () => localStorage.getItem(STORAGE_KEY) === "true"
+  );
+  const [email, setEmail] = reactExports.useState("");
+  const [password, setPassword] = reactExports.useState("");
+  const [showPassword, setShowPassword] = reactExports.useState(false);
+  const [loginError, setLoginError] = reactExports.useState("");
   const [activeFilter, setActiveFilter] = reactExports.useState("tous");
   const { data: voyages = [], isLoading: loadingV } = useDemandesVoyages();
   const { data: immobilier = [], isLoading: loadingI } = useDemandesImmobilier();
@@ -68,38 +63,23 @@ function AdminPage() {
   const { data: contacts = [], isLoading: loadingC } = useContacts();
   const { mutate: updateStatut, isPending: updatingStatut } = useUpdateStatut();
   const isLoadingAll = loadingV || loadingI || loadingN || loadingC;
-  const enrich = (items, collection, dept) => items.map((d) => ({ ...d, _collection: collection, _dept: dept }));
-  const allDemandes = [
-    ...enrich(voyages, "demandes_voyages", "Voyages"),
-    ...enrich(immobilier, "demandes_immobilier", "Immobilier"),
-    ...enrich(nettoiement, "demandes_nettoiement", "Nettoiement"),
-    ...enrich(contacts, "contacts", "Contact")
-  ].sort((a, b) => Number(b.date) - Number(a.date));
-  const filterMap = {
-    tous: allDemandes,
-    voyages: enrich(voyages, "demandes_voyages", "Voyages"),
-    immobilier: enrich(immobilier, "demandes_immobilier", "Immobilier"),
-    nettoiement: enrich(nettoiement, "demandes_nettoiement", "Nettoiement"),
-    contacts: enrich(contacts, "contacts", "Contact")
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (email.trim() === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      localStorage.setItem(STORAGE_KEY, "true");
+      setIsLoggedIn(true);
+      setLoginError("");
+    } else {
+      setLoginError("Identifiant ou mot de passe incorrect.");
+    }
   };
-  const filtered = filterMap[activeFilter];
-  const handleMarkTraite = (item) => {
-    updateStatut(
-      { collection: item._collection, id: item.id, statut: "traité" },
-      {
-        onSuccess: () => ue.success("Demande marquée comme traitée."),
-        onError: () => ue.error("Erreur lors de la mise à jour.")
-      }
-    );
+  const handleLogout = () => {
+    localStorage.removeItem(STORAGE_KEY);
+    setIsLoggedIn(false);
+    setEmail("");
+    setPassword("");
   };
-  const formatDate = (ts) => new Date(Number(ts) / 1e6).toLocaleDateString("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
-  });
-  if (!isAuthenticated) {
+  if (!isLoggedIn) {
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
       "div",
       {
@@ -142,95 +122,168 @@ function AdminPage() {
             {
               className: "text-sm mb-8 leading-relaxed",
               style: { color: "#666", fontFamily: "Open Sans, sans-serif" },
-              children: "Connectez-vous avec votre identité numérique pour accéder au tableau de bord."
+              children: "Connectez-vous pour accéder au tableau de bord de gestion des demandes."
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "button",
-            {
-              type: "button",
-              onClick: () => login(),
-              className: "btn-primary w-full py-3 rounded-lg flex items-center justify-center gap-2",
-              "data-ocid": "admin.login_button",
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fas fa-sign-in-alt" }),
-                "Se connecter avec Internet Identity"
-              ]
-            }
-          )
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleLogin, className: "text-left space-y-4", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "label",
+                {
+                  htmlFor: "admin-email",
+                  className: "block text-xs font-semibold mb-1",
+                  style: {
+                    color: "#0D2B6B",
+                    fontFamily: "Montserrat, sans-serif"
+                  },
+                  children: "Identifiant (Email)"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "i",
+                  {
+                    className: "fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-sm",
+                    style: { color: "#aab3c0" }
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    id: "admin-email",
+                    type: "email",
+                    value: email,
+                    onChange: (e) => setEmail(e.target.value),
+                    placeholder: "Votre email",
+                    autoComplete: "email",
+                    required: true,
+                    className: "w-full pl-9 pr-4 py-2.5 rounded-lg border text-sm outline-none transition-smooth",
+                    style: {
+                      borderColor: "#dde3ee",
+                      fontFamily: "Open Sans, sans-serif",
+                      color: "#222"
+                    },
+                    "data-ocid": "admin.email_input"
+                  }
+                )
+              ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "label",
+                {
+                  htmlFor: "admin-password",
+                  className: "block text-xs font-semibold mb-1",
+                  style: {
+                    color: "#0D2B6B",
+                    fontFamily: "Montserrat, sans-serif"
+                  },
+                  children: "Mot de passe"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "i",
+                  {
+                    className: "fas fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-sm",
+                    style: { color: "#aab3c0" }
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    id: "admin-password",
+                    type: showPassword ? "text" : "password",
+                    value: password,
+                    onChange: (e) => setPassword(e.target.value),
+                    placeholder: "Votre mot de passe",
+                    autoComplete: "current-password",
+                    required: true,
+                    className: "w-full pl-9 pr-10 py-2.5 rounded-lg border text-sm outline-none transition-smooth",
+                    style: {
+                      borderColor: "#dde3ee",
+                      fontFamily: "Open Sans, sans-serif",
+                      color: "#222"
+                    },
+                    "data-ocid": "admin.password_input"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    type: "button",
+                    onClick: () => setShowPassword((v) => !v),
+                    className: "absolute right-3 top-1/2 -translate-y-1/2 text-sm",
+                    style: { color: "#aab3c0" },
+                    tabIndex: -1,
+                    children: /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: `fas ${showPassword ? "fa-eye-slash" : "fa-eye"}` })
+                  }
+                )
+              ] })
+            ] }),
+            loginError && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                className: "flex items-center gap-2 px-3 py-2 rounded-lg text-xs",
+                style: {
+                  backgroundColor: "#FDE8E8",
+                  color: "#DC2626",
+                  fontFamily: "Open Sans, sans-serif"
+                },
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fas fa-exclamation-circle" }),
+                  loginError
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                type: "submit",
+                className: "btn-primary w-full py-3 rounded-lg flex items-center justify-center gap-2",
+                "data-ocid": "admin.login_button",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fas fa-sign-in-alt" }),
+                  "Se connecter"
+                ]
+              }
+            )
+          ] })
         ] })
       }
     );
   }
-  if (isLoading) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "div",
+  const enrich = (items, collection, dept) => items.map((d) => ({ ...d, _collection: collection, _dept: dept }));
+  const allDemandes = [
+    ...enrich(voyages, "demandesVoyages", "Voyages"),
+    ...enrich(immobilier, "demandesImmobilier", "Immobilier"),
+    ...enrich(nettoiement, "demandesNettoiement", "Nettoiement"),
+    ...enrich(contacts, "contacts", "Contact")
+  ].sort((a, b) => new Date(b.$createdAt).getTime() - new Date(a.$createdAt).getTime());
+  const filterMap = {
+    tous: allDemandes,
+    voyages: enrich(voyages, "demandesVoyages", "Voyages"),
+    immobilier: enrich(immobilier, "demandesImmobilier", "Immobilier"),
+    nettoiement: enrich(nettoiement, "demandesNettoiement", "Nettoiement"),
+    contacts: enrich(contacts, "contacts", "Contact")
+  };
+  const filtered = filterMap[activeFilter];
+  const handleMarkTraite = (item) => {
+    updateStatut(
+      { collection: item._collection, id: item.$id, statut: "traité" },
       {
-        className: "min-h-screen flex items-center justify-center",
-        style: { backgroundColor: "#F4F6F9" },
-        "data-ocid": "admin.loading_state",
-        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: "w-12 h-12 rounded-full border-4 animate-spin mx-auto mb-4",
-              style: { borderColor: "#1A75BC", borderTopColor: "#F5A623" }
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { style: { color: "#0D2B6B", fontFamily: "Open Sans, sans-serif" }, children: "Vérification des accès..." })
-        ] })
+        onSuccess: () => ue.success("Demande marquée comme traitée."),
+        onError: () => ue.error("Erreur lors de la mise à jour.")
       }
     );
-  }
-  if (!isAdmin) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "div",
-      {
-        className: "min-h-screen flex items-center justify-center px-4",
-        style: { backgroundColor: "#F4F6F9" },
-        "data-ocid": "admin.unauthorized_state",
-        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white rounded-2xl p-10 shadow-elevated text-center max-w-sm w-full", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: "w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5",
-              style: { backgroundColor: "#FDE8E8" },
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fas fa-lock text-2xl", style: { color: "#DC2626" } })
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "h2",
-            {
-              className: "text-xl font-bold mb-2",
-              style: { color: "#0D2B6B", fontFamily: "Montserrat, sans-serif" },
-              children: "Accès non autorisé"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "p",
-            {
-              className: "text-sm mb-6 leading-relaxed",
-              style: { color: "#666", fontFamily: "Open Sans, sans-serif" },
-              children: "Votre compte ne dispose pas des droits nécessaires pour accéder à cette page."
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "button",
-            {
-              type: "button",
-              onClick: () => clear(),
-              className: "btn-primary w-full py-3 rounded-lg flex items-center justify-center gap-2",
-              "data-ocid": "admin.logout_button",
-              children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("i", { className: "fas fa-sign-out-alt" }),
-                "Se déconnecter"
-              ]
-            }
-          )
-        ] })
-      }
-    );
-  }
+  };
+  const formatDate = (isoDate) => new Date(isoDate).toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
   const tabs = [
     {
       key: "tous",
@@ -342,7 +395,7 @@ function AdminPage() {
                 "button",
                 {
                   type: "button",
-                  onClick: () => clear(),
+                  onClick: handleLogout,
                   className: "flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold transition-smooth",
                   style: {
                     borderColor: "rgba(255,255,255,0.3)",
@@ -639,7 +692,7 @@ function AdminPage() {
                                 color: "#999",
                                 fontFamily: "Open Sans, sans-serif"
                               },
-                              children: formatDate(item.date)
+                              children: formatDate(item.$createdAt)
                             }
                           ),
                           /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-4", children: /* @__PURE__ */ jsxRuntimeExports.jsx(StatutBadge, { statut: item.statut ?? "nouveau" }) }),
@@ -666,7 +719,7 @@ function AdminPage() {
                           ) })
                         ]
                       },
-                      `${item._collection}-${String(item.id)}`
+                      `${item._collection}-${item.$id}`
                     );
                   }) })
                 ] }),

@@ -1,5 +1,5 @@
-import { r as reactExports, j as jsxRuntimeExports, L as Link } from "./index-C4d48glV.js";
-import { u as useSubmitVoyage } from "./useBackend-C3I4X0wm.js";
+import { r as reactExports, j as jsxRuntimeExports, L as Link } from "./index-C-KlYw6s.js";
+import { u as useSubmitVoyage } from "./useBackend-CM5Ini1t.js";
 function useReveal(delay = 0) {
   const ref = reactExports.useRef(null);
   const [visible, setVisible] = reactExports.useState(false);
