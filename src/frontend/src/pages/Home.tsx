@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { SEO, getHomeStructuredData } from "../components/SEO";
 
 const departments = [
   {
@@ -371,6 +372,12 @@ function CounterStat({
 export function HomePage() {
   return (
     <div data-ocid="home.page">
+      <SEO
+        title="Assirik Tours | Agence de Voyage, Immobilier & Nettoiement à Dakar"
+        description="Assirik Tours — Agence sénégalaise spécialisée en voyages, immobilier et nettoiement à Dakar. Billets d'avion, assistance visa, vente immobilière, nettoyage professionnel."
+        canonicalUrl="https://assiriktours.com/"
+        structuredData={getHomeStructuredData()}
+      />
       {/* ===== HERO SECTION ===== */}
       <section
         className="relative min-h-screen flex items-center justify-center overflow-hidden"

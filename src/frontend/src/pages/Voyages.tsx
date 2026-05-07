@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useSubmitVoyage } from "../hooks/useBackend";
 import type { DemandeInput } from "../types";
+import { SEO, getVoyagesStructuredData } from "../components/SEO";
 
 function useReveal(delay = 0) {
   const ref = useRef<HTMLDivElement>(null);
@@ -363,6 +364,13 @@ export function VoyagesPage() {
 
   return (
     <div data-ocid="voyages.page">
+      <SEO
+        title="Voyages | Billets d'Avion, Visa & Circuits Touristiques - Assirik Tours Dakar"
+        description="Billets d'avion, assistance visa, circuits touristiques, transferts aéroport et réservations hôtels au meilleur prix depuis Dakar. Assirik Tours vous accompagne dans tous vos projets de voyage."
+        keywords="billet avion Dakar, visa Schengen Sénégal, circuit touristique Dakar, transfert aéroport, réservation hôtel Sénégal, agence voyage Dakar"
+        canonicalUrl="https://assiriktours.com/voyages"
+        structuredData={getVoyagesStructuredData()}
+      />
       {/* ── Toast notification ── */}
       {notification && (
         <div

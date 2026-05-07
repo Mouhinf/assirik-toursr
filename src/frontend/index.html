@@ -1,55 +1,209 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Primary SEO -->
     <title>Assirik Tours | Agence de Voyage, Immobilier &amp; Nettoiement à Dakar</title>
     <meta name="description" content="Assirik Tours — Agence sénégalaise spécialisée en voyages, immobilier et nettoiement à Dakar. Billets d'avion, assistance visa, vente immobilière, nettoyage professionnel." />
-    <meta name="keywords" content="Assirik Tours, agence voyage Dakar, immobilier Sénégal, nettoyage professionnel Dakar, billet avion Sénégal" />
-    <meta property="og:title" content="Assirik Tours | Agence de Voyage, Immobilier &amp; Nettoiement à Dakar" />
-    <meta property="og:description" content="Voyager, Habiter, Nettoyer — Assirik Tours à vos côtés à Dakar, Sénégal." />
+    <meta name="keywords" content="Assirik Tours, agence voyage Dakar, immobilier Sénégal, nettoyage professionnel Dakar, billet avion Sénégal, visa Schengen Dakar, gestion locative Dakar" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="language" content="French" />
+    <meta name="author" content="Assirik Tours" />
+    <meta name="publisher" content="Assirik Tours" />
+    <meta name="copyright" content="Assirik Tours" />
+    <meta name="category" content="Travel Agency, Real Estate, Cleaning Services" />
+    <meta name="rating" content="general" />
+    <meta name="distribution" content="global" />
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="SN-DK" />
+    <meta name="geo.placename" content="Dakar" />
+    <meta name="geo.position" content="14.6928;-17.4467" />
+    <meta name="ICBM" content="14.6928, -17.4467" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://assiriktours.com" />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/assets/logo.png" />
+    <meta property="og:url" content="https://assiriktours.com" />
+    <meta property="og:title" content="Assirik Tours | Agence de Voyage, Immobilier &amp; Nettoiement à Dakar" />
+    <meta property="og:description" content="Voyager, Habiter, Nettoyer — Assirik Tours à vos côtés à Dakar, Sénégal. Billets d'avion, immobilier, nettoyage professionnel." />
+    <meta property="og:image" content="https://assiriktours.com/assets/logo.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Assirik Tours - Agence de Voyage, Immobilier et Nettoiement" />
+    <meta property="og:locale" content="fr_SN" />
+    <meta property="og:site_name" content="Assirik Tours" />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Assirik Tours | Dakar, Sénégal" />
-    <meta name="twitter:description" content="Agence sénégalaise spécialisée en voyages, immobilier et nettoiement." />
+    <meta name="twitter:url" content="https://assiriktours.com" />
+    <meta name="twitter:title" content="Assirik Tours | Agence de Voyage, Immobilier &amp; Nettoiement à Dakar" />
+    <meta name="twitter:description" content="Voyager, Habiter, Nettoyer — Assirik Tours à vos côtés à Dakar, Sénégal." />
+    <meta name="twitter:image" content="https://assiriktours.com/assets/logo.png" />
+    <meta name="twitter:image:alt" content="Assirik Tours Logo" />
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/assets/logo.png" />
+    <link rel="apple-touch-icon" href="/assets/logo.png" />
+    <meta name="theme-color" content="#0D2B6B" />
+    <meta name="msapplication-TileColor" content="#0D2B6B" />
+
     <!-- Google Fonts: Montserrat + Open Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- AOS.js -->
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
-    <!-- Schema.org JSON-LD -->
+
+    <!-- Schema.org JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
-          "@type": "TravelAgency",
-          "name": "Assirik Tours Voyages",
+          "@type": "Organization",
+          "@id": "https://assiriktours.com/#organization",
+          "name": "Assirik Tours",
           "url": "https://assiriktours.com",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://assiriktours.com/assets/logo.png"
+          },
           "address": {
             "@type": "PostalAddress",
             "streetAddress": "Rue 22 prolongée Fass Delorme",
             "addressLocality": "Dakar",
             "addressCountry": "SN"
           },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+221338210181",
+            "contactType": "customer service",
+            "email": "assiriktours@gmail.com",
+            "availableLanguage": ["French", "Wolof", "English"]
+          },
+          "sameAs": [
+            "https://wa.me/221775495314"
+          ]
+        },
+        {
+          "@type": "TravelAgency",
+          "@id": "https://assiriktours.com/#travel-agency",
+          "name": "Assirik Tours Voyages",
+          "url": "https://assiriktours.com/voyages",
+          "parentOrganization": {
+            "@id": "https://assiriktours.com/#organization"
+          },
+          "description": "Billets d'avion, assistance visa, circuits touristiques, transferts aéroport et réservations hôtels au meilleur prix.",
           "telephone": "+221338210181",
           "email": "assiriktours@gmail.com"
         },
         {
           "@type": "RealEstateAgent",
+          "@id": "https://assiriktours.com/#real-estate",
           "name": "Assirik Tours Immobilier",
-          "url": "https://assiriktours.com/immobilier"
+          "url": "https://assiriktours.com/immobilier",
+          "parentOrganization": {
+            "@id": "https://assiriktours.com/#organization"
+          },
+          "description": "Vente de terrains et maisons, location, gestion locative, expertise et conseil en investissement immobilier.",
+          "telephone": "+221338210181",
+          "email": "assiriktours@gmail.com"
         },
         {
           "@type": "HomeAndConstructionBusiness",
+          "@id": "https://assiriktours.com/#cleaning",
           "name": "Assirik Tours Nettoiement (ATN)",
           "url": "https://assiriktours.com/nettoiement",
-          "foundingDate": "2019"
+          "parentOrganization": {
+            "@id": "https://assiriktours.com/#organization"
+          },
+          "description": "Services professionnels de nettoyage pour bureaux, hôtels, hôpitaux, industries et espaces verts.",
+          "foundingDate": "2019",
+          "telephone": "+221338210181",
+          "email": "assiriktours@gmail.com"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://assiriktours.com/#website",
+          "url": "https://assiriktours.com",
+          "name": "Assirik Tours",
+          "publisher": {
+            "@id": "https://assiriktours.com/#organization"
+          },
+          "inLanguage": "fr",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://assiriktours.com/contact?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://assiriktours.com/#webpage",
+          "url": "https://assiriktours.com",
+          "name": "Assirik Tours | Agence de Voyage, Immobilier & Nettoiement à Dakar",
+          "description": "Votre partenaire de confiance pour vos voyages, investissements immobiliers et services de nettoyage au Sénégal.",
+          "inLanguage": "fr",
+          "isPartOf": {
+            "@id": "https://assiriktours.com/#website"
+          },
+          "about": {
+            "@id": "https://assiriktours.com/#organization"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://assiriktours.com/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Accueil",
+              "item": "https://assiriktours.com"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Voyages",
+              "item": "https://assiriktours.com/voyages"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Immobilier",
+              "item": "https://assiriktours.com/immobilier"
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "name": "Nettoiement",
+              "item": "https://assiriktours.com/nettoiement"
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "name": "À Propos",
+              "item": "https://assiriktours.com/a-propos"
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "name": "Contact",
+              "item": "https://assiriktours.com/contact"
+            }
+          ]
         }
       ]
     }
@@ -57,6 +211,9 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p>Assirik Tours — Agence de voyage, immobilier et nettoiement à Dakar, Sénégal. Activez JavaScript pour une expérience complète.</p>
+    </noscript>
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script type="module" src="./src/main.tsx"></script>
   </body>

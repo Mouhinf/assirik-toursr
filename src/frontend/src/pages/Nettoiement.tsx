@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useSubmitNettoiement } from "../hooks/useBackend";
 import type { DemandeInput } from "../types";
+import { SEO, getNettoiementStructuredData } from "../components/SEO";
 
 const mainServices = [
   {
@@ -256,6 +257,13 @@ export function NettoiementPage() {
 
   return (
     <div data-ocid="nettoiement.page">
+      <SEO
+        title="Nettoiement | Nettoyage Professionnel à Dakar - ATN Assirik Tours"
+        description="Services professionnels de nettoyage pour bureaux, hôtels, hôpitaux, industries et espaces verts à Dakar. ATN - Assirik Tours Nettoiement, votre partenaire propreté depuis 2019."
+        keywords="nettoyage professionnel Dakar, entreprise nettoyage Sénégal, nettoyage bureaux Dakar, entretien espaces verts, nettoyage industriel Dakar, ATN Assirik Tours"
+        canonicalUrl="https://assiriktours.com/nettoiement"
+        structuredData={getNettoiementStructuredData()}
+      />
       {/* Hero */}
       <section
         className="py-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden"

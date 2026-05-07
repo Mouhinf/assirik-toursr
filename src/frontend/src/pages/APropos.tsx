@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { SEO } from "../components/SEO";
 
 const missionVision = [
   {
@@ -115,6 +116,12 @@ const certifications = [
 export function AProposPage() {
   return (
     <div data-ocid="a_propos.page">
+      <SEO
+        title="À Propos | Histoire & Valeurs d'Assirik Tours Dakar"
+        description="Découvrez l'histoire, la mission et les valeurs d'Assirik Tours. Agence sénégalaise de confiance depuis 2015, spécialisée en voyages, immobilier et nettoiement à Dakar."
+        keywords="à propos Assirik Tours, histoire agence voyage Dakar, entreprise nettoyage Sénégal, agence immobilière Dakar, valeurs Assirik Tours"
+        canonicalUrl="https://assiriktours.com/a-propos"
+      />
       {/* Hero */}
       <section
         className="py-24 px-4 sm:px-6 lg:px-8"
