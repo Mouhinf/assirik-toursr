@@ -124,7 +124,7 @@ const contactRoute = createRoute({
 });
 
 const adminRoute = createRoute({
-  getParentRoute: () => layoutRoute,
+  getParentRoute: () => rootRoute,
   path: "/admin",
   component: () => (
     <Suspense fallback={<PageLoader />}>
@@ -141,8 +141,8 @@ const routeTree = rootRoute.addChildren([
     nettoiementRoute,
     aProposRoute,
     contactRoute,
-    adminRoute,
   ]),
+  adminRoute,
 ]);
 
 const router = createRouter({
