@@ -1,5 +1,5 @@
 # robots.txt for Assirik Tours
-# https://assiriktours.com/robots.txt
+# https://www.assiriktours.com/robots.txt
 
 User-agent: *
 Allow: /
@@ -8,4 +8,4 @@ Allow: /
 Disallow: /admin
 
 # Sitemap location
-Sitemap: https://assiriktours.com/sitemap.xml
+Sitemap: https://www.assiriktours.com/sitemap.xml
