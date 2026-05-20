@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useSubmitImmobilier } from "../hooks/useBackend";
 import type { DemandeInput } from "../types";
 import { SEO, getImmobilierStructuredData } from "../components/SEO";
+import { sendFormEmail } from "../lib/emailService";
 
 const services = [
   {
@@ -205,8 +206,17 @@ export function ImmobilierPage() {
           setSubmitted(true);
           setForm(emptyForm);
           toast.success(
-            "Demande envoyée ! Notre équipe immobilier vous contactera rapidement.",
+            "Demande envoyée ! L'équipe immobilier vous contactera rapidement.",
           );
+          sendFormEmail("immobilier", {
+            to_name: "Équipe Assirik Tours",
+            from_name: form.nom,
+            from_email: form.email,
+            from_phone: form.telephone,
+            message: extras ? `${extras}\n\n${form.message}` : form.message,
+            department: "Immobilier",
+            submitted_at: new Date().toLocaleString("fr-FR"),
+          }).catch(() => {});
         },
         onError: () =>
           toast.error("Une erreur est survenue. Veuillez réessayer."),

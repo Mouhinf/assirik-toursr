@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSubmitVoyage } from "../hooks/useBackend";
 import type { DemandeInput } from "../types";
 import { SEO, getVoyagesStructuredData } from "../components/SEO";
+import { sendFormEmail } from "../lib/emailService";
 
 function useReveal(delay = 0) {
   const ref = useRef<HTMLDivElement>(null);
@@ -328,6 +329,15 @@ export function VoyagesPage() {
         type: "success",
         msg: "Votre demande a bien été envoyée ! Nous vous contacterons très prochainement.",
       });
+      sendFormEmail("voyages", {
+        to_name: "Équipe Assirik Tours",
+        from_name: form.nom,
+        from_email: form.email,
+        from_phone: form.telephone,
+        message: input.message,
+        department: "Voyages",
+        submitted_at: new Date().toLocaleString("fr-FR"),
+      }).catch(() => {});
       setForm({
         nom: "",
         email: "",

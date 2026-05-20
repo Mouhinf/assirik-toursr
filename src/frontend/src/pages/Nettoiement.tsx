@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { useSubmitNettoiement } from "../hooks/useBackend";
 import type { DemandeInput } from "../types";
 import { SEO, getNettoiementStructuredData } from "../components/SEO";
+import { sendFormEmail } from "../lib/emailService";
 
 const mainServices = [
   {
@@ -249,6 +250,15 @@ export function NettoiementPage() {
         setSubmitted(true);
         setForm(emptyForm);
         toast.success("Devis demandé ! ATN vous répondra dans les 24h.");
+        sendFormEmail("nettoiement", {
+          to_name: "Équipe Assirik Tours",
+          from_name: form.nom,
+          from_email: form.email,
+          from_phone: form.telephone,
+          message: payload.message,
+          department: "Nettoiement",
+          submitted_at: new Date().toLocaleString("fr-FR"),
+        }).catch(() => {});
       },
       onError: () =>
         toast.error("Une erreur est survenue. Veuillez réessayer."),

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSubmitContact } from "../hooks/useBackend";
 import type { DemandeInput } from "../types";
 import { SEO, getContactStructuredData } from "../components/SEO";
+import { sendFormEmail } from "../lib/emailService";
 
 const emptyForm: DemandeInput = {
   nom: "",
@@ -73,6 +74,15 @@ export function ContactPage() {
       onSuccess: () => {
         setSubmitStatus("success");
         setForm(emptyForm);
+        sendFormEmail("contact", {
+          to_name: "Équipe Assirik Tours",
+          from_name: form.nom,
+          from_email: form.email,
+          from_phone: form.telephone,
+          message: form.message,
+          department: "Contact",
+          submitted_at: new Date().toLocaleString("fr-FR"),
+        }).catch(() => {});
       },
       onError: () => setSubmitStatus("error"),
     });
