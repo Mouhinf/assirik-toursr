@@ -18,9 +18,9 @@ const BASE_URL = "https://www.assiriktours.com";
 const routes = [
   {
     path: "/",
-    title: "Assirik Tours | Agence de Voyage, Immobilier & Nettoiement à Dakar",
+    title: "Assirik Tours | Voyage, Immobilier & Nettoiement Dakar",
     description:
-      "Assirik Tours — Agence sénégalaise spécialisée en voyages, immobilier et nettoiement à Dakar. Billets d'avion, assistance visa, vente immobilière, nettoyage professionnel.",
+      "Assirik Tours, agence à Dakar : voyages, immobilier et nettoiement. Billets d'avion, visa, gestion locative et nettoyage professionnel.",
     keywords:
       "Assirik Tours, agence voyage Dakar, immobilier Sénégal, nettoyage professionnel Dakar, billet avion Sénégal",
     ogType: "website",
@@ -411,28 +411,94 @@ function generateHtml(template, route) {
     <meta name="theme-color" content="#0D2B6B" />
     <meta name="msapplication-TileColor" content="#0D2B6B" />
 
-    <!-- Google Fonts -->
+    <!-- Preload Hero Image for LCP -->
+    <link rel="preload" as="image" href="/assets/generated/hero-dakar-enhanced.dim_1920x1080.jpg" />
+
+    <!-- Google Fonts (non-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" /></noscript>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome (non-blocking) -->
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" /></noscript>
 
-    <!-- AOS.js -->
-    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+    <!-- AOS CSS (non-blocking) -->
+    <link rel="preload" as="style" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" /></noscript>
 
     <!-- Schema.org JSON-LD Structured Data -->
     <script type="application/ld+json">
     ${JSON.stringify(structuredData)}
     </script>
+
+    <!-- Inline critical CSS for SEO content - hidden after React hydration -->
+    <style>
+      #seo-content{margin:0;padding:0}
+      body.loaded #seo-content{display:none!important}
+    </style>
   </head>
   <body>
+    <!-- SEO content visible to crawlers in initial HTML, hidden after React loads -->
+    <div id="seo-content">
+      <h1>Assirik Tours — Agence de Voyage, Immobilier & Nettoiement à Dakar</h1>
+      <p>Assirik Tours est votre agence sénégalaise spécialisée en voyages, immobilier et nettoiement à Dakar. Billets d'avion, assistance visa, vente immobilière, gestion locative et nettoyage professionnel. Depuis Dakar, nous offrons des services de qualité pour voyager, habiter et entretenir vos espaces.</p>
+      <h2>Nos Services</h2>
+      <h3>Voyages</h3>
+      <p>Billets d'avion, assistance visa, circuits touristiques, transferts aéroport et réservations hôtels au meilleur prix depuis Dakar.</p>
+      <h3>Immobilier</h3>
+      <p>Vente de terrains et maisons, location, gestion locative, expertise et conseil en investissement immobilier à Dakar.</p>
+      <h3>Nettoiement</h3>
+      <p>Services professionnels de nettoyage pour bureaux, hôtels, hôpitaux, industries et espaces verts depuis 2019.</p>
+      <h2>Pourquoi Choisir Assirik Tours ?</h2>
+      <p>Notre équipe de professionnels qualifiés vous accompagne dans tous vos projets. Avec une expertise reconnue, des tarifs compétitifs et un service personnalisé, nous sommes votre partenaire de confiance à Dakar.</p>
+      <h3>Nos Atouts</h3>
+      <ul>
+        <li>Expertise dans les voyages, l'immobilier et le nettoiement</li>
+        <li>Service personnalisé et accompagnement complet</li>
+        <li>Tarifs compétitifs et transparence</li>
+        <li>Disponibilité 6 jours sur 7</li>
+        <li>Agence agréée par les autorités sénégalaises</li>
+      </ul>
+      <h2>Contactez-nous</h2>
+      <p>Adresse : Rue 22 prolongée Fass Delorme, Dakar, Sénégal</p>
+      <p>Téléphone : +221 33 821 0181</p>
+      <p>Email : assiriktours@gmail.com</p>
+      <p>WhatsApp : +221 77 549 5314</p>
+    </div>
     <div id="root"></div>
+    <script>document.body.classList.add('loaded')</script>
     <noscript>
-      <p>Assirik Tours — Agence de voyage, immobilier et nettoiement à Dakar, Sénégal. Activez JavaScript pour une expérience complète.</p>
+      <h1>Assirik Tours — Agence de Voyage, Immobilier & Nettoiement à Dakar</h1>
+      <p>Assirik Tours est votre agence sénégalaise spécialisée en voyages, immobilier et nettoiement à Dakar. Billets d'avion, assistance visa, vente immobilière, gestion locative et nettoyage professionnel. Depuis Dakar, nous offrons des services de qualité pour voyager, habiter et entretenir vos espaces.</p>
+      <h2>Nos Services</h2>
+      <h3>Voyages</h3>
+      <p>Billets d'avion, assistance visa, circuits touristiques, transferts aéroport et réservations hôtels au meilleur prix depuis Dakar.</p>
+      <h3>Immobilier</h3>
+      <p>Vente de terrains et maisons, location, gestion locative, expertise et conseil en investissement immobilier à Dakar.</p>
+      <h3>Nettoiement</h3>
+      <p>Services professionnels de nettoyage pour bureaux, hôtels, hôpitaux, industries et espaces verts depuis 2019.</p>
+      <h2>Pourquoi Choisir Assirik Tours ?</h2>
+      <p>Notre équipe de professionnels qualifiés vous accompagne dans tous vos projets. Avec une expertise reconnue, des tarifs compétitifs et un service personnalisé, nous sommes votre partenaire de confiance à Dakar.</p>
+      <h3>Nos Atouts</h3>
+      <ul>
+        <li>Expertise dans les voyages, l'immobilier et le nettoiement</li>
+        <li>Service personnalisé et accompagnement complet</li>
+        <li>Tarifs compétitifs et transparence</li>
+        <li>Disponibilité 6 jours sur 7</li>
+        <li>Agence agréée par les autorités sénégalaises</li>
+      </ul>
+      <h2>Contactez-nous</h2>
+      <p>Adresse : Rue 22 prolongée Fass Delorme, Dakar, Sénégal</p>
+      <p>Téléphone : +221 33 821 0181</p>
+      <p>Email : assiriktours@gmail.com</p>
+      <p>WhatsApp : +221 77 549 5314</p>
     </noscript>
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script defer src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script type="module" crossorigin src="${jsFile}"></script>
     <link rel="stylesheet" crossorigin href="${cssFile}">
   </body>

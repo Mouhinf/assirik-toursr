@@ -105,7 +105,7 @@ export function ContactPage() {
         title="Contact | Assirik Tours Dakar - Devis Gratuit"
         description="Contactez Assirik Tours pour un devis gratuit. Téléphone, email, WhatsApp ou formulaire en ligne. Rue 22 prolongée Fass Delorme, Dakar, Sénégal."
         keywords="contact Assirik Tours, devis gratuit Dakar, téléphone agence voyage, email immobilier Dakar, WhatsApp nettoyage professionnel"
-        canonicalUrl="https://assiriktours.com/contact"
+        canonicalUrl="https://www.assiriktours.com/contact"
         structuredData={getContactStructuredData()}
       />
       {/* Hero */}

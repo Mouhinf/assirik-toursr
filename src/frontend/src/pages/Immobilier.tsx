@@ -237,7 +237,7 @@ export function ImmobilierPage() {
         title="Immobilier | Vente, Location & Gestion Locative à Dakar - Assirik Tours"
         description="Vente de terrains et maisons, location résidentielle et commerciale, gestion locative et conseil en investissement immobilier à Dakar. Trouvez votre bien idéal avec Assirik Tours Immobilier."
         keywords="immobilier Dakar, vente terrain Dakar, location appartement Dakar, gestion locative Sénégal, villa Almadies, maison Mermoz, investissement immobilier Dakar"
-        canonicalUrl="https://assiriktours.com/immobilier"
+        canonicalUrl="https://www.assiriktours.com/immobilier"
         structuredData={getImmobilierStructuredData()}
       />
       {/* Hero */}

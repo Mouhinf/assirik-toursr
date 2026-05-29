@@ -378,7 +378,7 @@ export function VoyagesPage() {
         title="Voyages | Billets d'Avion, Visa & Circuits Touristiques - Assirik Tours Dakar"
         description="Billets d'avion, assistance visa, circuits touristiques, transferts aéroport et réservations hôtels au meilleur prix depuis Dakar. Assirik Tours vous accompagne dans tous vos projets de voyage."
         keywords="billet avion Dakar, visa Schengen Sénégal, circuit touristique Dakar, transfert aéroport, réservation hôtel Sénégal, agence voyage Dakar"
-        canonicalUrl="https://assiriktours.com/voyages"
+        canonicalUrl="https://www.assiriktours.com/voyages"
         structuredData={getVoyagesStructuredData()}
       />
       {/* ── Toast notification ── */}

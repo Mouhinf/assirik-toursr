@@ -120,7 +120,7 @@ export function AProposPage() {
         title="À Propos | Histoire & Valeurs d'Assirik Tours Dakar"
         description="Découvrez l'histoire, la mission et les valeurs d'Assirik Tours. Agence sénégalaise de confiance depuis 2015, spécialisée en voyages, immobilier et nettoiement à Dakar."
         keywords="à propos Assirik Tours, histoire agence voyage Dakar, entreprise nettoyage Sénégal, agence immobilière Dakar, valeurs Assirik Tours"
-        canonicalUrl="https://assiriktours.com/a-propos"
+        canonicalUrl="https://www.assiriktours.com/a-propos"
       />
       {/* Hero */}
       <section

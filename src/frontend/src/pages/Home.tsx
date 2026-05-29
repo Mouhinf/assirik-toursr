@@ -373,9 +373,9 @@ export function HomePage() {
   return (
     <div data-ocid="home.page">
       <SEO
-        title="Assirik Tours | Agence de Voyage, Immobilier & Nettoiement à Dakar"
-        description="Assirik Tours — Agence sénégalaise spécialisée en voyages, immobilier et nettoiement à Dakar. Billets d'avion, assistance visa, vente immobilière, nettoyage professionnel."
-        canonicalUrl="https://assiriktours.com/"
+        title="Assirik Tours | Voyage, Immobilier & Nettoiement Dakar"
+        description="Assirik Tours, agence à Dakar : voyages, immobilier et nettoiement. Billets d'avion, visa, gestion locative et nettoyage professionnel."
+        canonicalUrl="https://www.assiriktours.com/"
         structuredData={getHomeStructuredData()}
       />
       {/* ===== HERO SECTION ===== */}

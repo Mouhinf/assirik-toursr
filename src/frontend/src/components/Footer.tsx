@@ -278,18 +278,7 @@ export function Footer() {
               <span>Ninéa : 007633250</span>
               <span>Licence n°07022012*0044126</span>
             </div>
-            <a
-              href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${hostname}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs transition-smooth hover:opacity-80"
-              style={{
-                color: "rgba(255,255,255,0.4)",
-                fontFamily: "Open Sans, sans-serif",
-              }}
-            >
-              Built with ❤ using caffeine.ai
-            </a>
+            
           </div>
         </div>
       </div>

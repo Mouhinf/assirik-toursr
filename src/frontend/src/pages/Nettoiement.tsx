@@ -271,7 +271,7 @@ export function NettoiementPage() {
         title="Nettoiement | Nettoyage Professionnel à Dakar - ATN Assirik Tours"
         description="Services professionnels de nettoyage pour bureaux, hôtels, hôpitaux, industries et espaces verts à Dakar. ATN - Assirik Tours Nettoiement, votre partenaire propreté depuis 2019."
         keywords="nettoyage professionnel Dakar, entreprise nettoyage Sénégal, nettoyage bureaux Dakar, entretien espaces verts, nettoyage industriel Dakar, ATN Assirik Tours"
-        canonicalUrl="https://assiriktours.com/nettoiement"
+        canonicalUrl="https://www.assiriktours.com/nettoiement"
         structuredData={getNettoiementStructuredData()}
       />
       {/* Hero */}

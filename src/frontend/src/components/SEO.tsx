@@ -11,14 +11,14 @@ interface SEOProps {
 }
 
 const DEFAULTS = {
-  title: "Assirik Tours | Agence de Voyage, Immobilier & Nettoiement à Dakar",
+  title: "Assirik Tours | Voyage, Immobilier & Nettoiement Dakar",
   description:
-    "Assirik Tours — Agence sénégalaise spécialisée en voyages, immobilier et nettoiement à Dakar. Billets d'avion, assistance visa, vente immobilière, nettoyage professionnel.",
+    "Assirik Tours, agence à Dakar : voyages, immobilier et nettoiement. Billets d'avion, visa, gestion locative et nettoyage professionnel.",
   keywords:
     "Assirik Tours, agence voyage Dakar, immobilier Sénégal, nettoyage professionnel Dakar, billet avion Sénégal, visa Schengen Dakar, gestion locative Dakar",
-  canonicalUrl: "https://assiriktours.com",
+  canonicalUrl: "https://www.assiriktours.com",
   ogType: "website",
-  ogImage: "https://assiriktours.com/assets/logo.png",
+  ogImage: "https://www.assiriktours.com/assets/logo.png",
 };
 
 export function SEO({
@@ -123,9 +123,9 @@ export function getHomeStructuredData() {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
     name: "Assirik Tours",
-    url: "https://assiriktours.com",
-    logo: "https://assiriktours.com/assets/logo.png",
-    image: "https://assiriktours.com/assets/logo.png",
+    url: "https://www.assiriktours.com",
+    logo: "https://www.assiriktours.com/assets/logo.png",
+    image: "https://www.assiriktours.com/assets/logo.png",
     description:
       "Agence sénégalaise spécialisée en voyages, immobilier et nettoiement à Dakar.",
     address: {
@@ -170,7 +170,7 @@ export function getVoyagesStructuredData() {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
     name: "Assirik Tours Voyages",
-    url: "https://assiriktours.com/voyages",
+    url: "https://www.assiriktours.com/voyages",
     description:
       "Billets d'avion, assistance visa, circuits touristiques, transferts aéroport et réservations hôtels au meilleur prix depuis Dakar.",
     telephone: "+221338210181",
@@ -220,7 +220,7 @@ export function getImmobilierStructuredData() {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
     name: "Assirik Tours Immobilier",
-    url: "https://assiriktours.com/immobilier",
+    url: "https://www.assiriktours.com/immobilier",
     description:
       "Vente de terrains et maisons, location, gestion locative, expertise et conseil en investissement immobilier à Dakar.",
     telephone: "+221338210181",
@@ -265,7 +265,7 @@ export function getNettoiementStructuredData() {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
     name: "Assirik Tours Nettoiement (ATN)",
-    url: "https://assiriktours.com/nettoiement",
+    url: "https://www.assiriktours.com/nettoiement",
     description:
       "Services professionnels de nettoyage pour bureaux, hôtels, hôpitaux, industries et espaces verts depuis 2019.",
     foundingDate: "2019",
@@ -318,7 +318,7 @@ export function getContactStructuredData() {
     parentOrganization: {
       "@type": "Organization",
       name: "Assirik Tours",
-      url: "https://assiriktours.com",
+      url: "https://www.assiriktours.com/contact",
       address: {
         "@type": "PostalAddress",
         streetAddress: "Rue 22 prolongée Fass Delorme",
