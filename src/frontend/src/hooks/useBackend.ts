@@ -1,18 +1,38 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { databases, APPWRITE_DATABASE_ID, APPWRITE_COLLECTIONS, ID, Query } from "../lib/appwrite";
+import {
+  createDemande,
+  listDemandes,
+  updateStatut,
+  COLLECTIONS,
+} from "../lib/firestoreService";
 import type { DemandeBase, DemandeInput } from "../types";
 
-// Helper to map Appwrite document to DemandeBase
-function mapDocumentToDemande(doc: Record<string, unknown>, departement: string): DemandeBase {
+// Helper to map Firestore document to DemandeBase
+function mapDocToDemande(
+  doc: { id: string; [key: string]: unknown },
+  departement: string,
+): DemandeBase {
+  const createdAt = doc.createdAt;
+  let createdAtStr: string;
+  if (createdAt instanceof Date) {
+    createdAtStr = createdAt.toISOString();
+  } else if (typeof createdAt === "string") {
+    createdAtStr = createdAt;
+  } else if (createdAt && typeof createdAt === "object" && "seconds" in createdAt) {
+    createdAtStr = new Date((createdAt as { seconds: number }).seconds * 1000).toISOString();
+  } else {
+    createdAtStr = new Date().toISOString();
+  }
+
   return {
-    $id: doc.$id as string,
+    $id: doc.id as string,
     nom: (doc.nom as string) ?? "",
     email: (doc.email as string) ?? "",
     telephone: (doc.telephone as string) ?? "",
     message: (doc.message as string) ?? "",
     departement,
     statut: (doc.statut as string) ?? "nouveau",
-    $createdAt: (doc.$createdAt as string) ?? new Date().toISOString(),
+    $createdAt: createdAtStr,
   };
 }
 
@@ -22,20 +42,11 @@ export function useSubmitVoyage() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (input: DemandeInput) => {
-      const doc = await databases.createDocument(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_COLLECTIONS.demandesVoyages,
-        ID.unique(),
-        {
-          nom: input.nom,
-          email: input.email,
-          telephone: input.telephone,
-          message: input.message,
-          statut: "nouveau",
-          departement: "Voyages",
-        }
-      );
-      return doc;
+      const result = await createDemande(COLLECTIONS.demandesVoyages, {
+        ...input,
+        departement: "Voyages",
+      });
+      return result;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["voyages"] }),
   });
@@ -45,14 +56,8 @@ export function useDemandesVoyages() {
   return useQuery<DemandeBase[]>({
     queryKey: ["voyages"],
     queryFn: async () => {
-      const response = await databases.listDocuments(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_COLLECTIONS.demandesVoyages,
-        [Query.orderDesc("$createdAt")]
-      );
-      return response.documents.map((doc) =>
-        mapDocumentToDemande(doc as unknown as Record<string, unknown>, "Voyages")
-      );
+      const docs = await listDemandes(COLLECTIONS.demandesVoyages);
+      return docs.map((d) => mapDocToDemande(d, "Voyages"));
     },
   });
 }
@@ -63,20 +68,11 @@ export function useSubmitImmobilier() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (input: DemandeInput) => {
-      const doc = await databases.createDocument(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_COLLECTIONS.demandesImmobilier,
-        ID.unique(),
-        {
-          nom: input.nom,
-          email: input.email,
-          telephone: input.telephone,
-          message: input.message,
-          statut: "nouveau",
-          departement: "Immobilier",
-        }
-      );
-      return doc;
+      const result = await createDemande(COLLECTIONS.demandesImmobilier, {
+        ...input,
+        departement: "Immobilier",
+      });
+      return result;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["immobilier"] }),
   });
@@ -86,14 +82,8 @@ export function useDemandesImmobilier() {
   return useQuery<DemandeBase[]>({
     queryKey: ["immobilier"],
     queryFn: async () => {
-      const response = await databases.listDocuments(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_COLLECTIONS.demandesImmobilier,
-        [Query.orderDesc("$createdAt")]
-      );
-      return response.documents.map((doc) =>
-        mapDocumentToDemande(doc as unknown as Record<string, unknown>, "Immobilier")
-      );
+      const docs = await listDemandes(COLLECTIONS.demandesImmobilier);
+      return docs.map((d) => mapDocToDemande(d, "Immobilier"));
     },
   });
 }
@@ -104,20 +94,11 @@ export function useSubmitNettoiement() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (input: DemandeInput) => {
-      const doc = await databases.createDocument(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_COLLECTIONS.demandesNettoiement,
-        ID.unique(),
-        {
-          nom: input.nom,
-          email: input.email,
-          telephone: input.telephone,
-          message: input.message,
-          statut: "nouveau",
-          departement: "Nettoiement",
-        }
-      );
-      return doc;
+      const result = await createDemande(COLLECTIONS.demandesNettoiement, {
+        ...input,
+        departement: "Nettoiement",
+      });
+      return result;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["nettoiement"] }),
   });
@@ -127,14 +108,8 @@ export function useDemandesNettoiement() {
   return useQuery<DemandeBase[]>({
     queryKey: ["nettoiement"],
     queryFn: async () => {
-      const response = await databases.listDocuments(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_COLLECTIONS.demandesNettoiement,
-        [Query.orderDesc("$createdAt")]
-      );
-      return response.documents.map((doc) =>
-        mapDocumentToDemande(doc as unknown as Record<string, unknown>, "Nettoiement")
-      );
+      const docs = await listDemandes(COLLECTIONS.demandesNettoiement);
+      return docs.map((d) => mapDocToDemande(d, "Nettoiement"));
     },
   });
 }
@@ -145,20 +120,11 @@ export function useSubmitContact() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (input: DemandeInput) => {
-      const doc = await databases.createDocument(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_COLLECTIONS.contacts,
-        ID.unique(),
-        {
-          nom: input.nom,
-          email: input.email,
-          telephone: input.telephone,
-          message: input.message,
-          statut: "nouveau",
-          departement: "Contact",
-        }
-      );
-      return doc;
+      const result = await createDemande(COLLECTIONS.contacts, {
+        ...input,
+        departement: "Contact",
+      });
+      return result;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["contacts"] }),
   });
@@ -168,14 +134,8 @@ export function useContacts() {
   return useQuery<DemandeBase[]>({
     queryKey: ["contacts"],
     queryFn: async () => {
-      const response = await databases.listDocuments(
-        APPWRITE_DATABASE_ID,
-        APPWRITE_COLLECTIONS.contacts,
-        [Query.orderDesc("$createdAt")]
-      );
-      return response.documents.map((doc) =>
-        mapDocumentToDemande(doc as unknown as Record<string, unknown>, "Contact")
-      );
+      const docs = await listDemandes(COLLECTIONS.contacts);
+      return docs.map((d) => mapDocToDemande(d, "Contact"));
     },
   });
 }
@@ -186,7 +146,7 @@ export function useUpdateStatut() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({
-      collection,
+      collection: collectionName,
       id,
       statut,
     }: {
@@ -194,15 +154,9 @@ export function useUpdateStatut() {
       id: string;
       statut: string;
     }) => {
-      const collectionId = APPWRITE_COLLECTIONS[collection as keyof typeof APPWRITE_COLLECTIONS];
-      if (!collectionId) throw new Error(`Unknown collection: ${collection}`);
-
-      await databases.updateDocument(
-        APPWRITE_DATABASE_ID,
-        collectionId,
-        id,
-        { statut }
-      );
+      const col = COLLECTIONS[collectionName as keyof typeof COLLECTIONS];
+      if (!col) throw new Error(`Unknown collection: ${collectionName}`);
+      await updateStatut(col, id, statut);
       return true;
     },
     onSuccess: () => {
