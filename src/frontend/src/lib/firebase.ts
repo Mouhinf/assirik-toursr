@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA1jPha-CH4ivSodFWpknohK86rjTyBB-E",
-  authDomain: "assirik-tours-60545.firebaseapp.com",
-  projectId: "assirik-tours-60545",
-  storageBucket: "assirik-tours-60545.firebasestorage.app",
-  messagingSenderId: "1041609895784",
-  appId: "1:1041609895784:web:80fe701957fad6f735b0dd",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
